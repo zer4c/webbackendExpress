@@ -1,6 +1,13 @@
-import './Panel.css'
-
-function Panel() {
-  return (<section className="Panel">hola</section>)
+interface PanelProps {
+  children: React.ReactNode
 }
+
+function Panel({ children }: PanelProps) {
+  return (
+    <section className="Panel">
+      {children}
+    </section>
+  )
+}
+
 export default Panel
