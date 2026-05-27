@@ -2,8 +2,13 @@ const { db } = require("../../core/database.js");
 
 const COLLECTION = "todoItems";
 
-async function getItems() {
-  const snapshot = await db.collection(COLLECTION).get();
+async function getItems(limit, offset) {
+  const snapshot = await db
+    .collection(COLLECTION)
+    .offset(offset)
+    .limit(limit)
+    .get();
+
   return snapshot.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
@@ -51,10 +56,4 @@ async function deleteItem(id) {
   return true;
 }
 
-module.exports = {
-  getItems,
-  getById,
-  createItem,
-  patchItem,
-  deleteItem,
-};
+module.exports = { getItems, getById, createItem, patchItem, deleteItem };
