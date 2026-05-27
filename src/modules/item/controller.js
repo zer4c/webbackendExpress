@@ -1,6 +1,6 @@
 const TodoItemService = require("./services.js");
 
-async function getAll(_req, res) {
+async function getAll(_req, res, next) {
   try {
     const items = await TodoItemService.getItems();
     return res.status(200).send({
@@ -9,11 +9,11 @@ async function getAll(_req, res) {
       data: items,
     });
   } catch {
-    return res.status(500).send({ detail: "internal server error", ok: false });
+    next();
   }
 }
 
-async function getById(req, res) {
+async function getById(req, res, next) {
   try {
     const item = await TodoItemService.getById(req.params.id);
     if (!item) {
@@ -25,11 +25,11 @@ async function getById(req, res) {
       data: item,
     });
   } catch {
-    return res.status(500).send({ detail: "internal server error", ok: false });
+    next();
   }
 }
 
-async function createItem(req, res) {
+async function createItem(req, res, next) {
   try {
     const item = await TodoItemService.createItem(req.body);
     return res.status(201).send({
@@ -38,11 +38,11 @@ async function createItem(req, res) {
       data: item,
     });
   } catch {
-    return res.status(500).send({ detail: "internal server error", ok: false });
+    next();
   }
 }
 
-async function patchItem(req, res) {
+async function patchItem(req, res, next) {
   try {
     const item = await TodoItemService.patchItem(req.params.id, req.body);
     if (!item) {
@@ -54,11 +54,11 @@ async function patchItem(req, res) {
       data: item,
     });
   } catch {
-    return res.status(500).send({ detail: "internal server error", ok: false });
+    next();
   }
 }
 
-async function deleteItem(req, res) {
+async function deleteItem(req, res, next) {
   try {
     const result = await TodoItemService.deleteItem(req.params.id);
     if (!result) {
@@ -66,7 +66,7 @@ async function deleteItem(req, res) {
     }
     return res.status(204).send();
   } catch {
-    return res.status(500).send({ detail: "internal server error", ok: false });
+    next();
   }
 }
 
