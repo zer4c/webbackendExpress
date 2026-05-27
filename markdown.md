@@ -10,4 +10,4 @@ Para el uso de la IA se utilizo claude sonnet 4.6 thinking
 ## Frontend
 
 - Para las peticiones de mi frontend hacia el backend.
-- 
+- Para los estilos basicos de los componentes y arreglos menores de los estilos.
