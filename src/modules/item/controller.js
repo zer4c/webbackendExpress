@@ -1,4 +1,5 @@
 const TodoItemService = require("./services.js");
+const onHeaders = require("on-headers");
 
 const BASE_URL = "/todolist/item";
 
@@ -56,6 +57,9 @@ async function getById(req, res, next) {
 async function createItem(req, res, next) {
   try {
     const item = await TodoItemService.createItem(req.body);
+    onHeaders(res, function () {
+      this.removeHeader("ETag");
+    });
     return res.status(201).send({
       status: 201,
       detail: "item created",
@@ -81,6 +85,9 @@ async function patchItem(req, res, next) {
         .status(404)
         .send({ status: 404, detail: "item not found", ok: false });
     }
+    onHeaders(res, function () {
+      this.removeHeader("ETag");
+    });
     return res.status(200).send({
       status: 200,
       detail: "item updated",
@@ -105,6 +112,9 @@ async function deleteItem(req, res, next) {
         .status(404)
         .send({ status: 404, detail: "item not found", ok: false });
     }
+    onHeaders(res, function () {
+      this.removeHeader("ETag");
+    });
     return res.status(204).send();
   } catch (error) {
     next(error);
