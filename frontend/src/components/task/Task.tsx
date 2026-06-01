@@ -68,3 +68,6 @@ function Task({ task }: TaskProps) {
 }
 
 export default Task
+
+// avisos de eliminar
+// formato de fecha
