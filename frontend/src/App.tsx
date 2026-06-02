@@ -1,22 +1,31 @@
-import { useState } from 'react'
-import Panel from './components/panel/Panel'
-import List from './components/list/List'
-import Task from './components/task/Task'
-import type { Task as TaskType } from './types/task'
+import { Routes, Route, Navigate } from 'react-router-dom'
+import Login from './components/login/Login'
+import PantallaTodoList from './screens/PantallaTodoList'
+import PantallaDrive from './screens/PantallaDrive'
 import './App.css'
 
-function App() {
-  const [selectedTask, setSelectedTask] = useState<TaskType | null>(null)
+function ProtectedRoute({ children }: { children: React.ReactNode }) {
+  const token = localStorage.getItem('token')
+  if (!token) return <Navigate to="/login" replace />
+  return <>{children}</>
+}
 
+function App() {
   return (
-    <section>
-      <Panel>
-        <List onSelectTask={setSelectedTask} />
-      </Panel>
-      <Panel>
-        <Task task={selectedTask} />
-      </Panel>
-    </section>
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/todolist" element={
+        <ProtectedRoute>
+          <PantallaTodoList />
+        </ProtectedRoute>
+      } />
+      <Route path="/drive" element={
+        <ProtectedRoute>
+          <PantallaDrive />
+        </ProtectedRoute>
+      } />
+      <Route path="*" element={<Navigate to="/login" replace />} />
+    </Routes>
   )
 }
 

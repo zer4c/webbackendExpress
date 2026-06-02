@@ -1,21 +1,22 @@
-.Task{
+.Task {
   text-align: left;
 }
-
 .Task h1 {
   font-size: 26px;
 }
-
 .Task h2 {
   font-size: 22px;
   margin-bottom: 16px;
 }
-
 .Task p {
   font-size: 15px;
   margin-bottom: 8px;
 }
-
 .Task-empty {
   font-size: 15px;
+}
+.Options {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
 }

@@ -1,33 +1,24 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import ListTask from '../listTask/ListTask'
 import Form from '../form/Form'
-import { getItems, createItem } from '../../services/itemService'
+import { createItem } from '../../services/itemService'
 import type { Task } from '../../types/task'
 import './List.css'
 
 interface ListProps {
   onSelectTask: (task: Task) => void
+  onRefresh: () => void
+  items: Task[]
 }
 
-function List({ onSelectTask }: ListProps) {
-  const [items, setItems] = useState<Task[]>([])
+function List({ onSelectTask, onRefresh, items }: ListProps) {
   const [showForm, setShowForm] = useState(false)
 
-  const fetchItems = async () => {
-    getItems()
-      .then(data => setItems(data.data))
-      .catch(err => console.error(err))
-  }
-
-  useEffect(() => {
-    fetchItems()
-  }, [])
-
-  const handleCreate = async (data: Partial<Task>) => {
+  const FinishCreate = async (data: Partial<Task>) => {
     try {
       await createItem(data.descripcion ?? '', data.fechaFinal ?? null)
       setShowForm(false)
-      fetchItems()
+      onRefresh()
     } catch (err) {
       console.error(err)
     }
@@ -37,17 +28,12 @@ function List({ onSelectTask }: ListProps) {
     <div className="List">
       <div className="List-header">
         <h2>Tareas</h2>
-        <button onClick={() => setShowForm(true)}>+ Crear</button>
+        <button onClick={() => setShowForm(true)}>Crear</button>
       </div>
-      {items.map(item => (
+      {items.map((item) => (
         <ListTask key={item.id} task={item} onClick={() => onSelectTask(item)} />
       ))}
-      {showForm && (
-        <Form
-          onClose={() => setShowForm(false)}
-          onSubmit={handleCreate}
-        />
-      )}
+      {showForm && <Form onClose={() => setShowForm(false)} onSubmit={FinishCreate} />}
     </div>
   )
 }

@@ -1,8 +1,13 @@
-section {
+.panels {
   display: flex;
   flex-direction: row;
   gap: 16px;
   width: 100%;
   margin: 2px;
   padding: 10px;
+}
+.topbar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 10px;
 }

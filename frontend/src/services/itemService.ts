@@ -13,7 +13,7 @@ export const getItemById = async (id: string): Promise<{ data: Task }> => {
   return res.data
 }
 
-export const createItem = async (descripcion: string, fechaFinal: string | null = null): Promise<{ data: Task }> => {
+export const createItem = async (descripcion: string, fechaFinal: string | null): Promise<{ data: Task }> => {
   const res = await api.post(URL, { descripcion, fechaFinal })
   return res.data
 }

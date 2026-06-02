@@ -1,4 +1,5 @@
 import type { Task } from '../../types/task'
+import { formatDate } from '../../utils/date'
 import './ListTask.css'
 
 interface ListTaskProps {
@@ -11,6 +12,7 @@ function ListTask({ task, onClick }: ListTaskProps) {
     <div className="ListTask" onClick={onClick}>
       <h3>{task.descripcion}</h3>
       <span>{task.estado}</span>
+      <span>{formatDate(task.fechaCreacion)}</span>
     </div>
   )
 }

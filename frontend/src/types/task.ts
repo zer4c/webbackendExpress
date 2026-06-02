@@ -4,4 +4,5 @@ export interface Task {
   estado: string
   fechaCreacion: string
   fechaFinal: string | null
+  user_email: string
 }

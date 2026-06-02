@@ -1,0 +1,11 @@
+.DriveItem-empty {
+  font-size: 15px;
+}
+.DriveItem-detail {
+  text-align: left;
+}
+.DriveItem-detail h2 {
+  font-size: 18px;
+  margin-bottom: 16px;
+  word-break: break-all;
+}

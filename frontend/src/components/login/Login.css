@@ -1,0 +1,21 @@
+.Login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 30px;
+}
+.Login form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 280px;
+}
+.Login .buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+.Login .error {
+  color: red;
+  font-size: 13px;
+}
