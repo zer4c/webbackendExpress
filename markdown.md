@@ -7,6 +7,7 @@ Para el uso de la IA se utilizo claude sonnet 4.6 thinking
 - Para las consutas con firebase y su configuracion.
 - Para encontrar la solucion a quitar el ETag y manipular la cabecera para el objeto responses.
 - Para la utilizacion de passport se utilizo como referencia [video](https://www.youtube.com/watch?v=EcCIlxfxc4g) 
+- para crud de archivos me ayudo la IA aconsejandome usar FirebaseStorage en lugar de decodificar.
 
 ## Frontend
 

@@ -1,7 +1,9 @@
 const { Router } = require("express");
-const passport = require("passport");
-const jwt = require("jsonwebtoken");
+const AuthController = require("./controller");
 
-const router = Router()
+const router = Router();
 
+router.post("/signup", AuthController.signup);
+router.post("/login", AuthController.login);
 
+module.exports = router;

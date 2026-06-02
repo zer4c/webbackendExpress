@@ -1,25 +1,23 @@
 const passport = require("passport");
-const localStrategy = require("passport-local").Strategy;
-const { db } = require("../core/database");
+const { Strategy: LocalStrategy } = require("passport-local");
+const { Strategy: JwtStrategy, ExtractJwt } = require("passport-jwt");
+const { findUserByEmail, createUser } = require("../modules/auth/services");
 
-const COLLECTION = "users";
+const JWT = process.env.JWT;
 
 passport.use(
   "signup",
-  new localStrategy(
-    {
-      usernameField: "email",
-      passwordField: "password",
-    },
+  new LocalStrategy(
+    { usernameField: "email", passwordField: "password" },
     async (email, password, done) => {
       try {
-        const user = await db
-          .collection(COLLECTION)
-          .doc(email)
-          .set({ password });
+        const user = await createUser(email, password);
+        if (!user) {
+          return done(null, false, { message: "User already exists" });
+        }
         return done(null, user);
       } catch (error) {
-        done(error);
+        return done(error);
       }
     },
   ),
@@ -27,24 +25,41 @@ passport.use(
 
 passport.use(
   "login",
-  new localStrategy(
-    {
-      usernameField: "email",
-      passwordField: "password",
-    },
+  new LocalStrategy(
+    { usernameField: "email", passwordField: "password" },
     async (email, password, done) => {
       try {
-        const user = await db.collection(COLLECTION).doc(email).get();
-        if (!user.exists) {
+        const user = await findUserByEmail(email);
+        if (!user) {
           return done(null, false, { message: "User not found" });
         }
-        const pass_user = user.get("password");
-        if (password != pass_user) {
-          return done(null, false, { message: "wrong password" });
+        if (password !== user.password) {
+          return done(null, false, { message: "Wrong password" });
         }
-        return done(null, user, { message: "login succesfull" });
+        return done(null, user);
       } catch (error) {
-        retrun(error);
+        return done(error);
+      }
+    },
+  ),
+);
+
+passport.use(
+  "jwt",
+  new JwtStrategy(
+    {
+      // aqui me ayudo la IA buscando el fromAuthHeader ya que los tokens
+      // se envian por Headers. y no queryparams como en el tutorial
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      secretOrKey: JWT,
+    },
+    async (jwtPayload, done) => {
+      try {
+        const user = await findUserByEmail(jwtPayload.email);
+        if (!user) return done(null, false);
+        return done(null, user);
+      } catch (error) {
+        return done(error);
       }
     },
   ),

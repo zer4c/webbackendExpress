@@ -7,9 +7,7 @@ async function getAll(req, res, next) {
   try {
     const limit = parseInt(req.query.limit) || 10;
     const offset = parseInt(req.query.offset) || 0;
-
-    const items = await TodoItemService.getItems(limit, offset);
-
+    const items = await TodoItemService.getItems(limit, offset, req.user.email);
     return res.status(200).send({
       status: 200,
       detail: "items retrieved",
@@ -31,12 +29,11 @@ async function getAll(req, res, next) {
 
 async function getById(req, res, next) {
   try {
-    const item = await TodoItemService.getById(req.params.id);
-    if (!item) {
+    const item = await TodoItemService.getById(req.params.id, req.user.email);
+    if (!item)
       return res
         .status(404)
         .send({ status: 404, detail: "item not found", ok: false });
-    }
     return res.status(200).send({
       status: 200,
       detail: "item retrieved",
@@ -56,7 +53,7 @@ async function getById(req, res, next) {
 
 async function createItem(req, res, next) {
   try {
-    const item = await TodoItemService.createItem(req.body);
+    const item = await TodoItemService.createItem(req.body, req.user.email);
     onHeaders(res, function () {
       this.removeHeader("ETag");
     });
@@ -79,12 +76,15 @@ async function createItem(req, res, next) {
 
 async function patchItem(req, res, next) {
   try {
-    const item = await TodoItemService.patchItem(req.params.id, req.body);
-    if (!item) {
+    const item = await TodoItemService.patchItem(
+      req.params.id,
+      req.body,
+      req.user.email,
+    );
+    if (!item)
       return res
         .status(404)
         .send({ status: 404, detail: "item not found", ok: false });
-    }
     onHeaders(res, function () {
       this.removeHeader("ETag");
     });
@@ -106,12 +106,14 @@ async function patchItem(req, res, next) {
 
 async function deleteItem(req, res, next) {
   try {
-    const result = await TodoItemService.deleteItem(req.params.id);
-    if (!result) {
+    const result = await TodoItemService.deleteItem(
+      req.params.id,
+      req.user.email,
+    );
+    if (!result)
       return res
         .status(404)
         .send({ status: 404, detail: "item not found", ok: false });
-    }
     onHeaders(res, function () {
       this.removeHeader("ETag");
     });
