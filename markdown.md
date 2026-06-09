@@ -17,3 +17,15 @@ Para el uso de la IA se utilizo claude sonnet 4.6 thinking
 - para problemas con el formateo de las fechas.
 - para la conversion de los archivos a base64 que necesita mi backend para poder almacenar archivos.
 - para los interceptors del token [pagina web](https://medium.com/@barisberkemalkoc/axios-interceptor-intelligent-db46653b7303)
+
+siguiendo la guia del docente (url)[https://dev.to/josuebustos/https-localhost-for-node-js-1p1k], se aplico a backend y frontend los certificados, y se añadio la correspondiente configuracion para https, una prueba en la imagen
+
+![imagen](./imagesDoc/image.png)
+
+Se tuvo que añadir el comando de:
+```
+mkcert -install
+```
+para que el navegador confiara en los certificados segun la IA
+
+![imagen2](./imagesDoc/prompt.png)
